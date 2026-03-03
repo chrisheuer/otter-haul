@@ -1,0 +1,28 @@
+# Downloaded transcripts — don't commit your personal data
+OtterImport/
+
+# Credentials — never commit these
+.env
+*.env
+secrets.py
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# macOS
+.DS_Store
+
+# Editor cruft
+.vscode/
+.idea/
+*.swp
+*.swo
