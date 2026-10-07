@@ -4,7 +4,7 @@ Download your [Otter.ai](https://otter.ai) library: every transcript as plain te
 
 Built for people who want a local backup of years of meeting recordings, interviews and voice notes, without clicking through the Otter UI one transcript at a time.
 
-New here? **[HOWTO.md](HOWTO.md)** walks through setup, the first run and keeping it up to date.
+New here? **[HOWTO.md](HOWTO.md)** walks through setup and the first run, then [how to run it day to day](HOWTO.md#9-running-it-day-to-day): the one command to get what's new, what the output means, stopping and resuming, and managing the schedule.
 
 ---
 

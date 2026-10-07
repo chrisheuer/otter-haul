@@ -1,6 +1,6 @@
 # How to use otter-haul
 
-A step-by-step guide, from nothing installed to a library that keeps itself up to date. For what every option does, see the [README](README.md).
+Steps 1–8 set it up once. **Step 9 is how to run it day to day.** For what every option does, see the [README](README.md).
 
 ---
 
@@ -115,6 +115,100 @@ The first scheduled run may ask permission to read the Keychain entry. Choose "A
 ```
 
 A password inside crontab can be read by anything running as your user, so prefer a secrets manager if you have one.
+
+## 9. Running it day to day
+
+Once it's set up, this is all you need.
+
+### Get what's new
+
+From the `otter-haul` folder:
+
+```bash
+python otter_haul_v2.py you@example.com --keychain otter-haul --output-dir ~/Otter --summaries --audio
+```
+
+Use the **same command every time.** It reads `_downloaded.csv` and only fetches recordings that aren't there yet, so running it twice in a row costs nothing. Tip: save it as a shell alias so it's one word:
+
+```bash
+echo "alias otter-pull='cd ~/otter-haul && python3 otter_haul_v2.py you@example.com --keychain otter-haul --output-dir ~/Otter --summaries --audio'" >> ~/.zshrc
+source ~/.zshrc
+otter-pull
+```
+
+### What you'll see
+
+```
+📊 Status:
+   In your Otter account :  2,622
+   Already on disk       :  2,615
+   To download now       :      7
+
+⬇️  Downloading 7 transcript(s)…
+
+[1/7] Weekly standup
+   ✅ summary.md
+   ✅ mp3
+[2/7] Interview with Jana
+   ⏭  already downloaded
+   ✅ mp3
+...
+  Run complete —  Downloaded: 6  Already had: 1  Failed: 0
+
+🎉 No failures!
+```
+
+- `⏭ already downloaded`: the transcript was on disk. With `--summaries` or `--audio`, any missing summary or audio is still added.
+- `⚠️ mp3: …` or `⚠️ summary.md: …`: that piece didn't come through. The transcript is saved, and the next run tries again.
+- `❌ failed`: the transcript itself failed. It's logged in `_errors.csv`; run with `--retry` later.
+
+### Grab something specific
+
+```bash
+# Just today's or this week's recordings
+python otter_haul_v2.py you@example.com --keychain otter-haul --output-dir ~/Otter --since 2026-10-01 --summaries --audio
+
+# One meeting series, all of it
+python otter_haul_v2.py you@example.com --keychain otter-haul --output-dir ~/Otter --match "client name" --summaries --audio
+
+# Text only, fast (no audio)
+python otter_haul_v2.py you@example.com --keychain otter-haul --output-dir ~/Otter
+```
+
+`--since` and `--match` narrow what's fetched. They never delete anything already on disk.
+
+### Stop and resume
+
+Press **Ctrl-C** at any time. A half-downloaded audio file is left as `.part` and replaced on the next run, so nothing on disk ever looks finished when it isn't. Run the same command to continue.
+
+### Find what you downloaded
+
+Everything lands in your `--output-dir`, named `<date>_<title>`:
+
+```bash
+ls -t ~/Otter | head            # newest first
+open ~/Otter                    # macOS: open the folder in Finder
+grep -il "pricing" ~/Otter/*.txt   # which transcripts mention a word
+```
+
+### If you set up the schedule (step 8)
+
+```bash
+tail -20 /tmp/otter-haul.log                                       # what the last run did
+launchctl start com.otter-haul                                     # run it now, without waiting
+launchctl unload ~/Library/LaunchAgents/com.otter-haul.plist       # pause the schedule
+launchctl load ~/Library/LaunchAgents/com.otter-haul.plist         # resume it
+```
+
+### Changed your Otter password?
+
+```bash
+security add-generic-password -U -s otter-haul -a you@example.com -w
+```
+
+Nothing else changes. The next run uses the new password.
+
+---
 
 ## Troubleshooting
 
