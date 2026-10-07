@@ -49,16 +49,16 @@ OUTPUT FILES (all saved inside --output-dir)
 EXAMPLES
 --------
     # First run — builds the index and downloads everything
-    python otter_export_v10.py me@example.com
+    python otter_haul_v2.py me@example.com
 
     # Subsequent run — only fetches new transcripts
-    python otter_export_v10.py me@example.com
+    python otter_haul_v2.py me@example.com
 
     # Retry anything that failed last time
-    python otter_export_v10.py me@example.com --retry
+    python otter_haul_v2.py me@example.com --retry
 
     # Save to a custom folder
-    python otter_export_v10.py me@example.com --output-dir ~/Documents/Otter
+    python otter_haul_v2.py me@example.com --output-dir ~/Documents/Otter
 
 REQUIREMENTS
 ------------
