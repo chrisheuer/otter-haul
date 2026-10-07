@@ -977,7 +977,7 @@ def run_batch(session: requests.Session, userid: str,
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        prog="otter_export",
+        prog="otter_haul_v2.py",
         description=(
             "Download all your Otter.ai transcripts as plain-text files.\n\n"
             "On first run the script builds a full account index (~1 min for "
@@ -990,6 +990,7 @@ def parse_args() -> argparse.Namespace:
             "  %(prog)s me@example.com\n"
             "  %(prog)s me@example.com --retry\n"
             "  %(prog)s me@example.com --output-dir ~/Documents/Otter\n"
+            "  %(prog)s me@example.com --keychain otter-haul --since 2026-09-01 --summaries --audio\n"
         ),
     )
     parser.add_argument(
