@@ -7,7 +7,7 @@ Steps 1–8 set it up once. **Step 9 is how to run it day to day.** For what eve
 ## 1. Get the code
 
 ```bash
-git clone https://github.com/guruhuey/otter-haul.git
+git clone https://github.com/chrisheuer/otter-haul.git
 cd otter-haul
 pip install -r requirements.txt
 ```

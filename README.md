@@ -181,7 +181,7 @@ python otter_haul_v2.py me@example.com --retry
 
 ## Credits
 
-Otter Haul was built by Chris Heuer ([GitHub](https://github.com/guruhuey) · [LinkedIn](https://linkedin.com/in/chrisheuer)) using Claude CoWork and Claude Code (Anthropic).
+Otter Haul was built by Chris Heuer ([GitHub](https://github.com/chrisheuer) · [LinkedIn](https://linkedin.com/in/chrisheuer)) using Claude CoWork and Claude Code (Anthropic).
 
 ---
 
