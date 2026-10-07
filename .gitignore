@@ -1,5 +1,11 @@
 # Downloaded transcripts — don't commit your personal data
 OtterImport/
+otter-transcripts*/
+*.mp3
+*.summary.md
+_index.json
+_downloaded.csv
+_errors.csv
 
 # Credentials — never commit these
 .env
