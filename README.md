@@ -1,6 +1,6 @@
 # otter-haul
 
-Download all your [Otter.ai](https://otter.ai) transcripts as plain-text `.txt` files.
+Download all your [Otter.ai](https://otter.ai) transcripts as plain-text `.txt` files, and (new in v2) their AI summaries and audio.
 
 Built for people who want a local backup of years of meeting recordings, interviews, and voice notes — without clicking through the Otter UI one transcript at a time.
 
@@ -15,6 +15,15 @@ Built for people who want a local backup of years of meeting recordings, intervi
 - **Retry mode** — re-attempt any failures with a single flag
 - **Collision-safe filenames** — duplicate titles get `_2`, `_3`, … suffixes
 - **Handles both response formats** — Otter returns transcripts as ZIP archives; the script unzips them automatically
+
+**New in v2** (`otter_haul_v2.py`; v1 is kept unchanged):
+
+- **AI summaries** (`--summaries`) — Otter's summary, action items and outline, saved as `<date>_<title>.summary.md`
+- **Audio** (`--audio`) — the original recording, saved as `<date>_<title>.mp3`
+- **Filters** — `--since YYYY-MM-DD` and `--match REGEX` (title) to grab one series or one period
+- **Keychain login on macOS** (`--keychain SERVICE`) — no password prompt, nothing in shell history; `OTTER_PASSWORD` also works
+- **Backfill** — with `--summaries` or `--audio`, transcripts you already have get their summary and audio added
+- **Fix** — audio downloads set a second `csrftoken` cookie, which crashed v1's cookie lookup; v2 picks the otter.ai one
 
 ---
 
@@ -55,6 +64,21 @@ python otter_export_v10.py me@example.com --verbose
 ```
 
 Run `python otter_export_v10.py --help` for the full option reference.
+
+### v2 examples
+
+```bash
+# Store the password once (macOS), then never type it again
+security add-generic-password -s otter-haul -a me@example.com -w
+
+# Everything since September, with summaries and audio
+python otter_haul_v2.py me@example.com --keychain otter-haul --since 2026-09-01 --summaries --audio
+
+# One recurring series, across your whole history
+python otter_haul_v2.py me@example.com --keychain otter-haul --match "weekly standup" --audio
+```
+
+Audio runs about 11 MB per recorded hour.
 
 ---
 
@@ -134,7 +158,7 @@ python otter_haul_v1.py me@example.com --retry
 - **Unofficial API** — This uses the same internal endpoints as the Otter.ai web app. It is not an official integration and could break if Otter changes their API.
 - **Rate limiting** — The 1.5-second delay between downloads is intentional. Don't reduce it significantly or you risk being throttled.
 - **Shared transcripts** — The script fetches both `owned` and `shared` sources, so transcripts shared with you by others will also be included.
-- **No audio** — Only the text transcript is downloaded, not the original audio recording.
+- **Audio** — v1 downloads text only; use v2 with `--audio` for the recordings.
 
 ---
 
